@@ -22,7 +22,10 @@ def test_db():
     conn.close()
 
 def test_dq_checks_logic(test_db):
-    # This assumes there is a run_id 999 from the idempotency test or we can just test the function executes and returns a score.
+    # Ensure run_id 999 exists in pipeline_run
+    with test_db.cursor() as cur:
+        cur.execute("INSERT INTO pipeline_run (run_id, source, started_at, status) VALUES (999, 'test', NOW(), 'running') ON CONFLICT DO NOTHING")
+        test_db.commit()
     # In a real setup, we would insert bad data and assert score drops.
     score, status = run_dq_checks(999)
     assert isinstance(score, float)

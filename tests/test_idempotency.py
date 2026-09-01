@@ -42,6 +42,8 @@ def test_idempotent_ingestion(test_db, tmp_path):
     # Ensure cleanup before test
     with test_db.cursor() as cur:
         cur.execute("DELETE FROM fact_outreach_event WHERE event_id_nk = 'test-event-1'")
+        cur.execute("INSERT INTO pipeline_run (run_id, source, started_at, status) VALUES (999, 'test', NOW(), 'running') ON CONFLICT DO NOTHING")
+        cur.execute("INSERT INTO pipeline_run (run_id, source, started_at, status) VALUES (1000, 'test', NOW(), 'running') ON CONFLICT DO NOTHING")
         test_db.commit()
 
     # Ingest once
