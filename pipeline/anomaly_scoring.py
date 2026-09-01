@@ -89,6 +89,9 @@ def calculate_anomaly_scores():
         
         comp_score = 0.40 * risk_accept + 0.35 * risk_reply + 0.25 * risk_ghost
         
+        group['risk_accept'] = risk_accept
+        group['risk_reply'] = risk_reply
+        group['risk_ghost'] = risk_ghost
         group['comp_score'] = comp_score
         group['is_flagged'] = comp_score > 3.5
         
@@ -102,7 +105,7 @@ def calculate_anomaly_scores():
                 
             results.append((
                 int(agent_sk), date_sk, 
-                float(risk_accept), float(risk_reply), float(risk_ghost),
+                float(row['risk_accept']), float(row['risk_reply']), float(row['risk_ghost']),
                 float(row['comp_score']), bool(row['is_flagged']), capacity
             ))
             

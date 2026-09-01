@@ -15,6 +15,7 @@ DB_USER = os.getenv("POSTGRES_USER", "admin")
 DB_PASS = os.getenv("POSTGRES_PASSWORD", "admin")
 
 def get_db_connection():
+    print(f"Connecting to DB: {DB_HOST}:{DB_PORT}/{DB_NAME} as {DB_USER} with password: '{DB_PASS}'")
     return psycopg2.connect(
         host=DB_HOST,
         port=DB_PORT,
